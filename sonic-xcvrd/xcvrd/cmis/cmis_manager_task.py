@@ -380,6 +380,7 @@ class CmisManagerTask(threading.Thread):
         for lane in range(self.CMIS_MAX_HOST_LANES):
             app_cur = api.get_application(lane)
             if app_cur != 0 and app_cur != app_new:
+                helper_logger.log_notice("STEPANB DUBUG: current lane: {}, app_cur: {}, app_new: {}".format(lane, app_cur, app_new))
                 return True
         return False
 
