@@ -7,6 +7,7 @@
 */build/
 */deb_dist/
 */dist/
+*/target/
 
 # Compiled code which doesn't end in '.pyc'
 sonic-thermalctld/scripts/thermalctldc
