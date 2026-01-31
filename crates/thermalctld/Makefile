@@ -14,8 +14,6 @@ help:
 	@echo "  make test               - Run all tests"
 	@echo "  make test-mellanox      - Run tests with Mellanox feature"
 	@echo "  make clean              - Clean build artifacts"
-	@echo "  make install            - Install binary to $(DESTDIR) (requires sudo)"
-	@echo "  make deploy             - Build and deploy (requires sudo)"
 	@echo ""
 	@echo "Variables:"
 	@echo "  PLATFORM=<name>    - Target platform (generic, mellanox)"
@@ -47,32 +45,6 @@ test-mellanox:
 
 clean:
 	$(CARGO) clean
-
-install: release
-	@if [ ! -w $(DESTDIR) ]; then \
-		echo "Error: No write permission to $(DESTDIR). Use sudo."; \
-		exit 1; \
-	fi
-	install -D -m 755 target/release/sonic-thermalctld $(DESTDIR)/sonic-thermalctld
-	@echo "Installed to $(DESTDIR)/sonic-thermalctld"
-
-install-mellanox: release-mellanox
-	@if [ ! -w $(DESTDIR) ]; then \
-		echo "Error: No write permission to $(DESTDIR). Use sudo."; \
-		exit 1; \
-	fi
-	install -D -m 755 target/release/sonic-thermalctld $(DESTDIR)/sonic-thermalctld
-	@echo "Installed to $(DESTDIR)/sonic-thermalctld"
-
-deploy:
-	@if [ "$(PLATFORM)" = "mellanox" ]; then \
-		sudo ./scripts/deploy.sh --build --platform mellanox --backup; \
-	else \
-		sudo ./scripts/deploy.sh --build --platform generic --backup; \
-	fi
-
-deploy-mellanox:
-	sudo ./scripts/deploy.sh --build --platform mellanox --backup
 
 check:
 	$(CARGO) check
